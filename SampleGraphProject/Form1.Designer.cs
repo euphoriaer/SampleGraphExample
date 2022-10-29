@@ -76,6 +76,7 @@
             this.DDALine.Name = "DDALine";
             this.DDALine.Size = new System.Drawing.Size(180, 22);
             this.DDALine.Text = "DDA直线";
+            this.DDALine.Click += new System.EventHandler(this.DDALine_Click);
             // 
             // 中点直线ToolStripMenuItem
             // 
@@ -141,6 +142,8 @@
             this.Name = "Form1";
             this.Text = "              ";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseClick);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
