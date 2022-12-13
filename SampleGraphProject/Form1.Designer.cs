@@ -35,6 +35,7 @@
             this.bresenham直线ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.中点圆ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.bresenham圆ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.清除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.二维图形变换ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.二维图形剪裁ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.图形填充ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,7 +66,8 @@
             this.中点直线ToolStripMenuItem,
             this.bresenham直线ToolStripMenuItem,
             this.中点圆ToolStripMenuItem,
-            this.bresenham圆ToolStripMenuItem});
+            this.bresenham圆ToolStripMenuItem,
+            this.清除ToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(92, 21);
             this.toolStripMenuItem1.Text = "基本图形生成";
@@ -83,12 +85,14 @@
             this.中点直线ToolStripMenuItem.Name = "中点直线ToolStripMenuItem";
             this.中点直线ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.中点直线ToolStripMenuItem.Text = "中点直线";
+            this.中点直线ToolStripMenuItem.Click += new System.EventHandler(this.MidLine_Click);
             // 
             // bresenham直线ToolStripMenuItem
             // 
             this.bresenham直线ToolStripMenuItem.Name = "bresenham直线ToolStripMenuItem";
             this.bresenham直线ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bresenham直线ToolStripMenuItem.Text = "Bresenham直线";
+            this.bresenham直线ToolStripMenuItem.Click += new System.EventHandler(this.bresenham直线ToolStripMenuItem_Click);
             // 
             // 中点圆ToolStripMenuItem
             // 
@@ -101,6 +105,14 @@
             this.bresenham圆ToolStripMenuItem.Name = "bresenham圆ToolStripMenuItem";
             this.bresenham圆ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bresenham圆ToolStripMenuItem.Text = "Bresenham圆";
+            this.bresenham圆ToolStripMenuItem.Click += new System.EventHandler(this.bresenham圆ToolStripMenuItem_Click);
+            // 
+            // 清除ToolStripMenuItem
+            // 
+            this.清除ToolStripMenuItem.Name = "清除ToolStripMenuItem";
+            this.清除ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.清除ToolStripMenuItem.Text = "清除";
+            this.清除ToolStripMenuItem.Click += new System.EventHandler(this.Clear_Click);
             // 
             // 二维图形变换ToolStripMenuItem
             // 
@@ -165,5 +177,6 @@
         private ToolStripMenuItem bresenham直线ToolStripMenuItem;
         private ToolStripMenuItem 中点圆ToolStripMenuItem;
         private ToolStripMenuItem bresenham圆ToolStripMenuItem;
+        private ToolStripMenuItem 清除ToolStripMenuItem;
     }
 }

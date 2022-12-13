@@ -33,6 +33,67 @@ namespace SampleGraphProject
             g.GetNearestColor(BackColor);
         }
 
+        private void MidLine_Click(object sender, EventArgs e)
+        {
+            MenuID = 2;
+            PressNumber = 0;
+            Graphics g = CreateGraphics();
+            g.Clear(BackColor);
+        }
+
+        private void Clear_Click(object sender, EventArgs e)
+        {
+            Graphics g = CreateGraphics();
+            g.Clear(BackColor);
+        }
+
+        private void bresenham圆ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MenuID = 5;
+            PressNumber = 0;
+            Graphics g = CreateGraphics();
+            g.Clear(BackColor);
+        }
+
+        private void bresenham直线ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+        }
+
+        //橡皮筋
+        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        {
+            Graphics g = CreateGraphics();
+            Pen BackPen = new Pen(BackColor, 1);
+            Pen FrontPen = new Pen(_foreColor, 1);
+
+            if (MenuID == 1 || MenuID == 2 && PressNumber == 1)
+            {
+                //g.DrawLine(BackPen, FirstX, FirstY, OldX, OldY);//旧的线用背景色覆盖(擦除)
+                //g.DrawLine(FrontPen, FirstX, FirstY, e.X, e.Y);//新的线显性
+
+                OldX = e.X;
+                OldY = e.Y;
+            }
+
+            if (MenuID == 5 && PressNumber == 1)
+            {
+                if (!(e.X == OldX && e.Y == OldY))
+                {
+                    int r = (int)MathF.Sqrt((FirstX - OldX) * (FirstX - OldX) + (FirstY - OldY) * (FirstY - OldY));//半径
+
+                    g.DrawEllipse(BackPen, FirstX - r, FirstY - r, 2 * r, 2 * r);//删除旧的
+
+                    int rNew = (int)MathF.Sqrt((FirstX - e.X) * (FirstX - e.X) + (FirstY - e.Y) * (FirstY - e.Y));//半径
+
+                    g.DrawEllipse(FrontPen, FirstX - rNew, FirstY - rNew, 2 * rNew, 2 * rNew);//删除旧的
+
+                    OldX = e.X;
+                    OldY = e.Y;
+                }
+            }
+        }
+
+        //绘制
         private void Form1_MouseClick(object sender, MouseEventArgs e)
         {
             Graphics g = CreateGraphics();
@@ -49,7 +110,47 @@ namespace SampleGraphProject
                 else//第二个点
                 {
                     //g.DrawLine(pen, FirstX, FirstY, e.X, e.Y);
-                    DDALine_kx_b(pen,FirstX, FirstY, e.X, e.Y);
+                    DDALine_kx_b(pen, FirstX, FirstY, e.X, e.Y);
+                }
+                PressNumber++;
+                if (PressNumber >= 2)
+                {
+                    PressNumber = 0;
+                }
+            }
+
+            if (MenuID == 2)
+            {
+                if (PressNumber == 0)//第一个点
+                {
+                    FirstX = e.X;
+                    FirstY = e.Y;
+                    OldX = e.X;
+                    OldY = e.Y;
+                }
+                else//第二个点
+                {
+                    //g.DrawLine(pen, FirstX, FirstY, e.X, e.Y);
+                    MidLine(pen, FirstX, FirstY, e.X, e.Y);
+                }
+                PressNumber++;
+                if (PressNumber >= 2)
+                {
+                    PressNumber = 0;
+                }
+            }
+
+            if (MenuID == 5)
+            {
+                if (PressNumber == 0)
+                {
+                    FirstX = e.X;
+                    FirstX = e.Y;//圆心
+                }
+                else
+                {
+                    //第二点 半径
+                    BresenhamCircle(FirstX, FirstY, e.X, e.Y);
                 }
                 PressNumber++;
                 if (PressNumber >= 2)
@@ -59,30 +160,81 @@ namespace SampleGraphProject
             }
         }
 
-        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        #region 算法
+        private void Kx_b(int x0, int y0, int x1, int y1)
         {
-            //橡皮筋
-            Graphics g = CreateGraphics();
-            Pen BackPen = new Pen(BackColor, 1);
-            Pen FrontPen = new Pen(_foreColor, 1);
-
-            if (MenuID == 1 && PressNumber == 1)
+            //因为X 从左往右步进，因此X0 始终在左侧，否则只能绘制从左往右的线段
+            if (x0 > x1)//如果从右往左绘制，交换两点
             {
-                //g.DrawLine(BackPen, FirstX, FirstY, OldX, OldY);//旧的线用背景色覆盖(擦除)
-                //g.DrawLine(FrontPen, FirstX, FirstY, e.X, e.Y);//新的线显性
-                DDALine_kx_b(BackPen,FirstX, FirstY, OldX, OldY);
-                DDALine_kx_b(FrontPen,FirstX, FirstY, e.X, e.Y);
-         
-                OldX = e.X;
-                OldY = e.Y;
+                int temp = x0;
+                x0 = x1;
+                x1 = temp;
+
+                temp = y0;
+                y0 = y1;
+                y1 = temp;
             }
+            Graphics g = CreateGraphics();
+            float dx = x1 - x0;
+            float dy = y1 - y0;
+
+            float k = dy / dx;
+
+            if (x1 - x0 == 0)
+            {
+                return;
+            }
+            float b = (-x0 / (x1 - x0)) * (y1 - y0) + y0;
+            //通过两点直线公式  计算位置，
+
+            float xStart = x0;
+            int xEnd = x1;
+            float yStart = y0;
+            float step = 0.1f;
+
+            for (; xStart < xEnd; xStart += step, yStart = k * xStart + b)//每次x 计算y
+            {
+                g.DrawRectangle(Pens.Red, xStart, yStart, 1, 1);
+            }
+        }
+
+        private void DDALine_kx_b_Step(int x0, int y0, int x1, int y1)
+        {
+            //因为X 从左往右步进，因此X0 始终在左侧，否则只能绘制从左往右的线段
+            if (x0 > x1)//如果从右往左绘制，交换两点
+            {
+                int temp = x0;
+                x0 = x1;
+                x1 = temp;
+
+                temp = y0;
+                y0 = y1;
+                y1 = temp;
+            }
+            Graphics g = CreateGraphics();
+            float dx = x1 - x0;
+            float dy = y1 - y0;
+            float k = dy / dx;
+
+            float xStart = x0;
+            int xEnd = x1;
+            float yStart = y0;
+            float step = 0.1f;
+
+            for (; xStart < xEnd; xStart += step, yStart = yStart + step * k)//每次x 步进单位0.1
+            {
+                g.DrawRectangle(Pens.Red, xStart, yStart, 1, 1);
+            }
+        }
+        private void MidLine(Pen pen, int firstX, int firstY, int x, int y)
+        {
         }
 
         private void DDA_Line(int x0, int y0, int x1, int y1)
         {
             Strength(x0, ref y0, x1, ref y1);
             Horizontal(x0, y0, x1, y1);
-           
+
             Graphics g = CreateGraphics();
 
             int flag;
@@ -224,7 +376,7 @@ namespace SampleGraphProject
             }
         }
 
-        private void DDALine_kx_b(Pen  Color,int x0, int y0, int x1, int y1)
+        private void DDALine_kx_b(Pen Color, int x0, int y0, int x1, int y1)
         {
             //因为X 从左往右步进，因此X0 始终在左侧，否则只能绘制从左往右的线段
             if (x0 > x1)//如果从右往左绘制，交换两点
@@ -254,70 +406,43 @@ namespace SampleGraphProject
             }
         }
 
-        private void Kx_b(int x0, int y0, int x1, int y1)
+        private void BresenhamCircle(int x0, int y0, int x1, int y1)
         {
-            //因为X 从左往右步进，因此X0 始终在左侧，否则只能绘制从左往右的线段
-            if (x0 > x1)//如果从右往左绘制，交换两点
-            {
-                int temp = x0;
-                x0 = x1;
-                x1 = temp;
+            int r;
+            int d;
+            int x;
+            int y;
 
-                temp = y0;
-                y0 = y1;
-                y1 = temp;
-            }
             Graphics g = CreateGraphics();
-            float dx = x1 - x0;
-            float dy = y1 - y0;
+            r = (int)MathF.Sqrt((x1 - x0) * (x1 - x0) - (y1 - y0) * (y1 - y0));
+            x = 0;
+            y = r;
+            d = 3 - 2 * r;
 
-            float k = dy / dx;
-
-            if (x1 - x0==0)
+            while (x < y||x==y)
             {
-                return;
-            }
-            float b=(-x0/(x1 - x0))*(y1-y0)+y0;
-            //通过两点直线公式  计算位置，
+                g.DrawRectangle(Pens.Blue, x + x0, y + y0, 1, 1);
+                g.DrawRectangle(Pens.Red, -x + x0, y + y0, 1, 1);
+                g.DrawRectangle(Pens.Green, x + x0, -y + y0, 1, 1);
+                g.DrawRectangle(Pens.Yellow, -x + x0, -y + y0, 1, 1);
+                g.DrawRectangle(Pens.Black, y + y0, x + y0, 1, 1);
+                g.DrawRectangle(Pens.Red, -y + x0, x + y0, 1, 1);
+                g.DrawRectangle(Pens.Red, y + y0, -x + y0, 1, 1);
+                g.DrawRectangle(Pens.Red, -y + x0, -x + y0, 1, 1);
 
-            float xStart = x0;
-            int xEnd = x1;
-            float yStart = y0;
-            float step = 0.1f;
-
-            for (; xStart < xEnd; xStart += step, yStart =k*xStart+b)//每次x 计算y 
-            {
-                g.DrawRectangle(Pens.Red, xStart, yStart, 1, 1);
+                x += 1;
+                if (d<0||d==0)
+                {
+                    d = d + 4 * x + 6;
+                }
+                else
+                {
+                    y = y - 1;
+                    d = d + 4 * (x - y) + 10;
+                }
             }
         }
+        #endregion
 
-        private void DDALine_kx_b_Step(int x0, int y0, int x1, int y1)
-        {
-            //因为X 从左往右步进，因此X0 始终在左侧，否则只能绘制从左往右的线段
-            if (x0 > x1)//如果从右往左绘制，交换两点
-            {
-                int temp = x0;
-                x0 = x1;
-                x1 = temp;
-
-                temp = y0;
-                y0 = y1;
-                y1 = temp;
-            }
-            Graphics g = CreateGraphics();
-            float dx = x1 - x0;
-            float dy = y1 - y0;
-            float k = dy / dx;
-
-            float xStart = x0;
-            int xEnd = x1;
-            float yStart = y0;
-            float step = 0.1f;
-
-            for (; xStart < xEnd; xStart += step, yStart = yStart + step * k)//每次x 步进单位0.1
-            {
-                g.DrawRectangle(Pens.Red, xStart, yStart, 1, 1);
-            }
-        }
     }
 }
