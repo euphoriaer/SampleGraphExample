@@ -91,13 +91,46 @@ namespace SampleGraphProject
                     OldY = e.Y;
                 }
             }
+
+            if (MenuID == 31 && PressNumber > 0)
+            {
+                if (!(e.X == OldX && e.Y == OldY))
+                {
+                    g.DrawLine(BackPen, points[PressNumber-1].X, points[PressNumber - 1].Y, OldX, OldY);//旧的线用背景色覆盖(擦除)
+                    g.DrawLine(FrontPen, points[PressNumber - 1].X, points[PressNumber - 1].Y, e.X, e.Y);//新的线显性
+
+                    OldX = e.X;
+                    OldY = e.Y;
+                }
+            }
         }
 
         //绘制
-        private void Form1_MouseClick(object sender, MouseEventArgs e)
+        private void Form1_MouseClickUpdate(object sender, MouseEventArgs e)
         {
             Graphics g = CreateGraphics();
             Pen pen = new Pen(Color.Red, 1);
+
+            if (MenuID==31)//扫描线填充
+            {
+                if (e.Button==MouseButtons.Left)
+                {
+                    points[PressNumber].X = e.X;
+                    points[PressNumber].Y = e.Y;
+                    if (PressNumber>0)//画多边形
+                    {
+                        g.DrawLine(Pens.Red, points[PressNumber - 1], points[PressNumber]);
+                    }
+                    PressNumber++;
+                }
+                if (e.Button==MouseButtons.Right)//右键结束多边形绘制，开始填充
+                {
+                    g.DrawLine(Pens.Red, points[PressNumber - 1], points[0]);
+                    ScanLineFill();
+                    PressNumber = 0;
+                }
+            }
+
             if (MenuID == 1)
             {
                 if (PressNumber == 0)//第一个点
@@ -159,6 +192,8 @@ namespace SampleGraphProject
                 }
             }
         }
+
+       
 
         #region 算法
         private void Kx_b(int x0, int y0, int x1, int y1)
@@ -442,7 +477,20 @@ namespace SampleGraphProject
                 }
             }
         }
+
+        private void ScanLineFill()
+        {
+
+        }
         #endregion
 
+        Point[] points=new Point[100];
+        private void 扫描线填充ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MenuID = 31;
+            PressNumber = 0;
+            Graphics g=CreateGraphics();
+            g.Clear(BackColor);
+        }
     }
 }
