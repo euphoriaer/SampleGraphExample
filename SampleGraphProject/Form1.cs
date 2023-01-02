@@ -100,7 +100,7 @@ namespace SampleGraphProject
                     g.DrawLine(FrontPen, points[PressNumber - 1].X, points[PressNumber - 1].Y, e.X, e.Y);//新的线显性
 
                     OldX = e.X;
-                    OldY = e.Y;
+                    OldY = e.Y;                                      
                 }
             }
         }
