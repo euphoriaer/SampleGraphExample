@@ -39,9 +39,10 @@
             this.二维图形变换ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.二维图形剪裁ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.图形填充ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.扫描线填充ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.投影ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.消隐ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.扫描线填充ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.仿射变换ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -117,6 +118,8 @@
             // 
             // 二维图形变换ToolStripMenuItem
             // 
+            this.二维图形变换ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.仿射变换ToolStripMenuItem});
             this.二维图形变换ToolStripMenuItem.Name = "二维图形变换ToolStripMenuItem";
             this.二维图形变换ToolStripMenuItem.Size = new System.Drawing.Size(92, 21);
             this.二维图形变换ToolStripMenuItem.Text = "二维图形变换";
@@ -135,6 +138,13 @@
             this.图形填充ToolStripMenuItem.Size = new System.Drawing.Size(68, 21);
             this.图形填充ToolStripMenuItem.Text = "图形填充";
             // 
+            // 扫描线填充ToolStripMenuItem
+            // 
+            this.扫描线填充ToolStripMenuItem.Name = "扫描线填充ToolStripMenuItem";
+            this.扫描线填充ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+            this.扫描线填充ToolStripMenuItem.Text = "扫描线填充";
+            this.扫描线填充ToolStripMenuItem.Click += new System.EventHandler(this.扫描线填充ToolStripMenuItem_Click);
+            // 
             // 投影ToolStripMenuItem
             // 
             this.投影ToolStripMenuItem.Name = "投影ToolStripMenuItem";
@@ -147,12 +157,12 @@
             this.消隐ToolStripMenuItem.Size = new System.Drawing.Size(44, 21);
             this.消隐ToolStripMenuItem.Text = "消隐";
             // 
-            // 扫描线填充ToolStripMenuItem
+            // 仿射变换ToolStripMenuItem
             // 
-            this.扫描线填充ToolStripMenuItem.Name = "扫描线填充ToolStripMenuItem";
-            this.扫描线填充ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.扫描线填充ToolStripMenuItem.Text = "扫描线填充";
-            this.扫描线填充ToolStripMenuItem.Click += new System.EventHandler(this.扫描线填充ToolStripMenuItem_Click);
+            this.仿射变换ToolStripMenuItem.Name = "仿射变换ToolStripMenuItem";
+            this.仿射变换ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.仿射变换ToolStripMenuItem.Text = "仿射变换";
+            this.仿射变换ToolStripMenuItem.Click += new System.EventHandler(this.仿射变换ToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -189,5 +199,6 @@
         private ToolStripMenuItem bresenham圆ToolStripMenuItem;
         private ToolStripMenuItem 清除ToolStripMenuItem;
         private ToolStripMenuItem 扫描线填充ToolStripMenuItem;
+        private ToolStripMenuItem 仿射变换ToolStripMenuItem;
     }
 }

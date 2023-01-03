@@ -492,5 +492,10 @@ namespace SampleGraphProject
             Graphics g=CreateGraphics();
             g.Clear(BackColor);
         }
+
+        private void ·ÂÉä±ä»»ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
