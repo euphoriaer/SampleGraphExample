@@ -59,6 +59,8 @@ namespace SampleGraphProject
         {
         }
 
+
+
         //ÏðÆ¤½î
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
