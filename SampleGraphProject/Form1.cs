@@ -7,7 +7,6 @@ namespace SampleGraphProject
             InitializeComponent();
         }
 
-
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
         }
@@ -17,6 +16,7 @@ namespace SampleGraphProject
         }
 
         private Color _backColor = Color.White;
+
         private Color _foreColor = Color.Black;
         public int MenuID;
         public int PressNumber;
@@ -60,8 +60,6 @@ namespace SampleGraphProject
         {
         }
 
-
-
         //橡皮筋
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
@@ -99,11 +97,11 @@ namespace SampleGraphProject
             {
                 if (!(e.X == OldX && e.Y == OldY))
                 {
-                    g.DrawLine(BackPen, points[PressNumber-1].X, points[PressNumber - 1].Y, OldX, OldY);//旧的线用背景色覆盖(擦除)
+                    g.DrawLine(BackPen, points[PressNumber - 1].X, points[PressNumber - 1].Y, OldX, OldY);//旧的线用背景色覆盖(擦除)
                     g.DrawLine(FrontPen, points[PressNumber - 1].X, points[PressNumber - 1].Y, e.X, e.Y);//新的线显性
 
                     OldX = e.X;
-                    OldY = e.Y;                                      
+                    OldY = e.Y;
                 }
             }
         }
@@ -114,19 +112,19 @@ namespace SampleGraphProject
             Graphics g = CreateGraphics();
             Pen pen = new Pen(Color.Red, 1);
 
-            if (MenuID==31)//扫描线填充
+            if (MenuID == 31)//扫描线填充
             {
-                if (e.Button==MouseButtons.Left)
+                if (e.Button == MouseButtons.Left)
                 {
                     points[PressNumber].X = e.X;
                     points[PressNumber].Y = e.Y;
-                    if (PressNumber>0)//画多边形
+                    if (PressNumber > 0)//画多边形
                     {
                         g.DrawLine(Pens.Red, points[PressNumber - 1], points[PressNumber]);
                     }
                     PressNumber++;
                 }
-                if (e.Button==MouseButtons.Right)//右键结束多边形绘制，开始填充
+                if (e.Button == MouseButtons.Right)//右键结束多边形绘制，开始填充
                 {
                     g.DrawLine(Pens.Red, points[PressNumber - 1], points[0]);
                     ScanLineFill();
@@ -196,9 +194,8 @@ namespace SampleGraphProject
             }
         }
 
-       
-
         #region 算法
+
         private void Kx_b(int x0, int y0, int x1, int y1)
         {
             //因为X 从左往右步进，因此X0 始终在左侧，否则只能绘制从左往右的线段
@@ -264,6 +261,7 @@ namespace SampleGraphProject
                 g.DrawRectangle(Pens.Red, xStart, yStart, 1, 1);
             }
         }
+
         private void MidLine(Pen pen, int firstX, int firstY, int x, int y)
         {
         }
@@ -457,7 +455,7 @@ namespace SampleGraphProject
             y = r;
             d = 3 - 2 * r;
 
-            while (x < y||x==y)
+            while (x < y || x == y)
             {
                 g.DrawRectangle(Pens.Blue, x + x0, y + y0, 1, 1);
                 g.DrawRectangle(Pens.Red, -x + x0, y + y0, 1, 1);
@@ -469,7 +467,7 @@ namespace SampleGraphProject
                 g.DrawRectangle(Pens.Red, -y + x0, -x + y0, 1, 1);
 
                 x += 1;
-                if (d<0||d==0)
+                if (d < 0 || d == 0)
                 {
                     d = d + 4 * x + 6;
                 }
@@ -483,22 +481,22 @@ namespace SampleGraphProject
 
         private void ScanLineFill()
         {
-
         }
-        #endregion
 
-        Point[] points=new Point[100];
+        #endregion 算法
+
+        private Point[] points = new Point[100];
+
         private void 扫描线填充ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MenuID = 31;
             PressNumber = 0;
-            Graphics g=CreateGraphics();
+            Graphics g = CreateGraphics();
             g.Clear(BackColor);
         }
 
         private void 仿射变换ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
         }
     }
 }
