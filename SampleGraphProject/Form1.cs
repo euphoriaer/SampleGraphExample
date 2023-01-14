@@ -17,6 +17,7 @@ namespace SampleGraphProject
 
         private Color _backColor = Color.White;
 
+
         private Color _foreColor = Color.Black;
         public int MenuID;
         public int PressNumber;
