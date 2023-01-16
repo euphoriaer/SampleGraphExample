@@ -14,6 +14,8 @@ namespace SampleGraphProject
         private void Form1_Load(object sender, EventArgs e)
         {
 
+
+
         }
 
         private Color _backColor = Color.White;
